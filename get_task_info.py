@@ -30,9 +30,10 @@ class Get_task_info:
         data = json.load(self.data)
         for task in data["content"]:
             if task["id"] == task_id:
-                data["Status"] = new_status
+                # since we selected the dictionary from the id hence task["id"] we need tu update that same status
+                task["Status"] = new_status
                 break
-    
+         
         with open("task_list.json", "w") as file:
             json.dump(data, file, indent=4)
         return task

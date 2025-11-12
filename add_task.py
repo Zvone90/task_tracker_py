@@ -18,14 +18,4 @@ class Add_task:
         print(f"Task #: {self.id}\nDescription: {self.description}\nStatus: {self.status}")
     
     
-    def update_task_status(self, task_id, new_status):
-        self.data.seek(0)
-        data = json.load(self.data)
-        for task in data["content"]:
-            if task["id"] == task_id:
-                data["Status"] = new_status
-                break
     
-        with open("task_list.json", "w") as file:
-            json.dump(data, file, indent=4)
-        return task

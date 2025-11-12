@@ -18,7 +18,7 @@ else:
     my_json = {"content": []}
 
 user_input = ""
-select_menu = input("\nFor adding new tasks type:  new task\nFor updating a task type:   update\nFor list of task enter:     task list\n============================\n\n")
+select_menu = input("\nFor adding new tasks type:  new task\nFor updating a task type:   update\nTo delete a task type:      delete\nFor list of task enter:     task list\n\nType exit to quit the app.\n=====================================\n\n")
 
 #add a new task
 if select_menu == "new task":
@@ -42,22 +42,29 @@ if select_menu == "new task":
 
 
 #update a task
-if select_menu== "update":
-    while user_input != "exit":
+if select_menu == "update":
+    update_task_id =  ""
+    while update_task_id != "exit":
         update_task_id = input("Enter the id of task that you want to update: ")
+        if update_task_id == "exit":
+            exit()
+        else:
+            with open(f"{my_json_file_name}", "r") as json_data_file:
 
-        with open(f"{my_json_file_name}", "r") as json_data_file:
+                print_task_data = Get_task_info(json_data_file)
+                print("task before update")
+                print(json.dumps(print_task_data.get_task_by_id(f"{update_task_id}"), indent=4))
 
-            print_task_data = Get_task_info(json_data_file)
-            print("task before update")
-            print(json.dumps(print_task_data.get_task_by_id(f"{update_task_id}"), indent=4))
+                new_status = input("Select from the following:\n1. complete\n2. in-progress\n3. to-do\n")
 
-            new_status = input("Select from the following:\n1. complete\n2. in-progress\n3. to-do\n")
+                updated_task = print_task_data.update_task_status(update_task_id, new_status)
 
-            updated_task = print_task_data.update_task_status(update_task_id, new_status)
+                print(json.dumps(updated_task, indent=4))
 
-            print(json.dumps(updated_task, indent=4))
 
+#delete a task
+if select_menu == "delete":
+    print("deleted task")
 
 #list tasks
 if select_menu == "task list":
@@ -85,4 +92,7 @@ if select_menu == "task list":
 
             print(json.dumps(print_task_data.get_task_by_status(f"{status_type}"), indent=4))
 
-            
+
+#exiting the program
+if select_menu == "exit":
+    exit()
