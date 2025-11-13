@@ -9,7 +9,7 @@ my_json_file_name = 'task_list.json'
 
 check_file = os.path.isfile(my_json_file_name)
 #print(check_file)
-
+    
 if check_file == True :
     with open('task_list.json') as json_data:
         my_json = json.load(json_data)
@@ -64,7 +64,19 @@ if select_menu == "update":
 
 #delete a task
 if select_menu == "delete":
-    print("deleted task")
+    delete_task_id =  ""
+    while delete_task_id != "exit":
+        delete_task_id = input("Enter the id of task that you want to delete: ")
+        if delete_task_id == "exit":
+            exit()
+        else:
+            with open(f"{my_json_file_name}", "r") as json_data_file:
+                print_task_data = Get_task_info(json_data_file)
+                print("task before deletion")
+                print(json.dumps(print_task_data.get_task_by_id(f"{delete_task_id}"), indent=4))
+                
+                deleted_task = print_task_data.delete_task(delete_task_id)
+                
 
 #list tasks
 if select_menu == "task list":

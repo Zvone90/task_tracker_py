@@ -37,3 +37,12 @@ class Get_task_info:
         with open("task_list.json", "w") as file:
             json.dump(data, file, indent=4)
         return task
+    
+    def delete_task(self, delete_task_id):
+        self.data.seek(0)
+        data = json.load(self.data)
+        data["content"] = [task for task in data["content"] if task["id"] != delete_task_id]
+                
+        with open("task_list.json", "w") as file:
+            json.dump(data, file, indent=4)
+        return data
